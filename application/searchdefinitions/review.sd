@@ -1,0 +1,24 @@
+search review {
+    document review {
+        field business_id type string {
+            indexing: index | summary
+        }
+        field review_id type string {
+            indexing: index
+        }
+        field stars type float {
+            indexing: summary | attribute
+        }
+        field review type string {
+            indexing: index | summary
+        }
+    }
+    fieldset default {
+        fields: review
+    }
+    rank-profile default inherits default {
+        first-phase {
+            expression:nativeRank(review) + 0.1 * attribute(stars)
+        }
+    }
+}

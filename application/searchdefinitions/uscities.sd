@@ -1,0 +1,27 @@
+search uscities {
+    document uscities {
+        field city type string {
+            indexing: index | summary
+        }
+        field state_id type string {
+            indexing: index | summary
+        }
+        field lat type float {
+            indexing: summary | attribute
+        }
+        field lng type float {
+            indexing: summary | attribute
+        }
+        field population type int {
+            indexing: summary | attribute
+        }
+    }
+    fieldset default {
+        fields: city, state_id
+    }
+    rank-profile post inherits default {
+        first-phase {
+            expression:nativeRank(city)
+        }
+    }
+}

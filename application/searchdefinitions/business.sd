@@ -1,0 +1,45 @@
+search business {
+    document business {
+        field business_id type string {
+            indexing: summary
+        }
+        field postal_code type string {
+            indexing: index | summary
+        }
+        field address type string {
+            indexing: summary
+        }
+        field categories type string {
+            indexing: index | attribute
+        }
+        field city type string {
+            indexing: summary | index
+        }
+        field review_count type string {
+            indexing: summary | attribute
+        }
+        field name type string {
+            indexing: summary
+        }
+        field longitude type float {
+            indexing: summary
+        }
+        field latitude type float {
+            indexing: summary
+        }
+        field stars type float{
+            indexing: summary | attribute
+        }
+        field state type string {
+            indexing: summary | index
+        }
+    }
+    fieldset default {
+        fields: city, state
+    }
+    rank-profile default inherits default {
+        first-phase {
+            expression:0.2* attribute(review_count) + 0.8 * attribute(stars)
+        }
+    }
+}
